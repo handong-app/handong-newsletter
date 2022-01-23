@@ -5,14 +5,16 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 
+from template.template import render_html
+
 # 시스템 변수 불러오기
 load_dotenv()
 
 # 메일 준비하기
-htmlFile = open("newsletter.html", "r", encoding="utf-8")
-htmlBody = htmlFile.read()
-htmlMIME = MIMEText(htmlBody, "html")
-htmlFile.close()
+# htmlFile = open("newsletter.html", "r", encoding="utf-8")
+# htmlBody = htmlFile.read()
+htmlMIME = MIMEText(render_html(), "html")
+# htmlFile.close()
 
 # print(transform(htmlBody))
 
