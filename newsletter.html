@@ -4,9 +4,133 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Handong News Letter</title>
+    <title>{{ title }}</title>
+    <style>
+      body {
+        margin: 1em;
+      }
+
+      .email-container {
+        max-width: 800px;
+        background-color: white;
+        margin: auto;
+        padding: 1em;
+      }
+
+      .heading * {
+        margin: 0;
+        line-height: 1.5em;
+      }
+
+      .heading {
+        text-align: center;
+        margin-bottom: 1em;
+      }
+
+      #subtitle {
+        font-size: 1em;
+        color: #666;
+      }
+
+      .sec-header {
+        font-weight: bold;
+        background-color: #bebebe;
+        padding: 0.5em;
+        margin-bottom: 0.5em;
+        font-size: 1.2em;
+      }
+
+      .food-menu table {
+        width: 100%;
+        margin: 0;
+        margin-bottom: 0.5em;
+        border-collapse: collapse;
+        table-layout: fixed;
+
+        text-align: center;
+      }
+
+      .food-menu table tr.first-tr {
+        background-color: #ccc;
+      }
+
+      .food-menu table tr.first-tr td {
+        padding: 0.3em;
+        font-weight: bold;
+      }
+
+      .second-tr {
+        background-color: #efefef;
+        font-weight: bold;
+      }
+
+      .food-menu table td {
+        border: 1px solid #666;
+      }
+    </style>
   </head>
   <body>
-    안녕하세요
+    <div class="email-container">
+      <!-- 제목 -->
+      <div class="heading">
+        <h1 id="title">한동 뉴스레터</h1>
+        <h2 id="subtitle">2022.06.24 (13주차 화요일)</h2>
+      </div>
+
+      <!-- 식단 -->
+      <div class="food-menu">
+        <div class="sec-header">오늘의 식단</div>
+        <table>
+          <tr class="first-tr">
+            <td colspan="3">든든한동</td>
+          </tr>
+          <tr class="second-tr">
+            <td>아침</td>
+            <td>점심</td>
+            <td>저녁</td>
+          </tr>
+          <tr>
+            <td>-운영없음-</td>
+            <td>
+              잔치국수<br />
+              추가밥<br />
+              찐만두<br />
+              요구르트<br />
+              맛김치
+            </td>
+            <td>
+              쌀밥<br />
+              미역국<br />
+              닭살간장볶음<br />
+              데친두부<br />
+              열무나물<br />
+              깍두기
+            </td>
+          </tr>
+        </table>
+
+        <table>
+          <tr class="first-tr">
+            <td>따스한동</td>
+            <td>FryFry</td>
+            <td>라운지</td>
+            <td>맘스키친</td>
+            <td>그레이스테이블</td>
+          </tr>
+          <tr>
+            <td>
+              돼지국밥<br />
+              양념돈까스
+            </td>
+            <td>운영없음</td>
+            <td>운영없음</td>
+            <td>운영없음</td>
+            <td>운영없음</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="hisnet-anon"></div>
+    </div>
   </body>
 </html>
