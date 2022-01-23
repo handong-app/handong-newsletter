@@ -108,9 +108,12 @@
         {%include "template/food-menu.jinja" %}
       </div>
 
+      {% if anon_hot | length != 0 %}
       <div class="hisnet-anon">
         <div class="sec-header">전일 히즈넷 공지사항</div>
-       {%include "template/hisnet-anon.jinja" %}
+        {%include "template/hisnet-anon.jinja" %}
+      </div>
+      {% endif %}
     </div>
   </body>
 </html>
