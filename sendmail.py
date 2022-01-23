@@ -1,6 +1,6 @@
 import os
 import smtplib, ssl
-from premailer import transform
+# from premailer import transform
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
