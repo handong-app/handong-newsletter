@@ -14,5 +14,5 @@ def buildMail():
 buildMail()
 
 server = Server()
-server.watch('*.html', buildMail)
+server.watch('template/*.html', buildMail)
 server.serve(root='build/')
