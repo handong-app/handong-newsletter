@@ -14,5 +14,5 @@ def render_html():
   )
   template = env.get_template("template/index.jinja")
 
-  rendered_html = template.render(name="Jungsub", food=FOODDATA, anon_hot=ANON_HOTDATA)
+  rendered_html = template.render(name="Jungsub", food=FOODDATA, anon_hot=ANON_HOTDATA, anon_rest=ANON_RESTDATA)
   return rendered_html

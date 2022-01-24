@@ -7,3 +7,15 @@
   </div>
   {% endfor %}
 </div>
+<div class="rest-list">
+  {% if anon_rest | length != 0 %}
+  <h3>나머지</h3>
+  <ul>
+    {% for item in anon_rest %}
+    <li>
+      <a href="{{ item.link }}">{{ item.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
