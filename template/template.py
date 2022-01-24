@@ -5,7 +5,9 @@ def render_html():
   with open("template/template.json", encoding="utf8") as dummy_file:
     dummy = json.load(dummy_file)
     FOODDATA = dummy["food"]
-    ANON_HOTDATA = dummy["anon"]["hot5"]
+    ANON_DATA = sorted(dummy["anon"], key=lambda x: x["view"], reverse=True)
+    ANON_HOTDATA = ANON_DATA[:5]
+    ANON_RESTDATA = ANON_DATA[5:]
 
   env = Environment(
     loader=FileSystemLoader(".")
