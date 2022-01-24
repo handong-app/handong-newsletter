@@ -17,6 +17,10 @@
         padding: 1em;
       }
 
+      .email-container a {
+        color: #2853aa;
+      }
+
       .heading * {
         margin: 0;
         line-height: 1.5em;
@@ -88,7 +92,6 @@
 
       .feat-text-title {
         font-weight: bold;
-        color: #2853aa;
         font-size: 1.1em;
         letter-spacing: 1.1px;
       }
@@ -101,6 +104,20 @@
         line-height: 1.6em;
         list-style-type: circle;
         margin-top: 0;
+      }
+
+      .footer {
+        font-size: 0.8em;
+        text-align: center;
+        color: #333;
+      }
+
+      .footer hr {
+        margin-top: 1em;
+        margin-bottom: 1em;
+        border: none;
+        height: 0.6px;
+        background-color: #333;
       }
     </style>
   </head>
@@ -124,6 +141,20 @@
         {%include "template/hisnet-anon.jinja" %}
       </div>
       {% endif %}
+
+      <div class="footer">
+        <hr />
+        <b>한동 뉴스레터</b>
+        <p>
+          본 이메일은 한동대학교와 아무런 연관이 없으며<br />
+          한동대학교 재학생이 직접 제작하여 관리하는 프로젝트입니다.
+        </p>
+        <div class="unsubscribe">
+          <a href="https://newsletter.handong.us/unsubscribe?email="
+            >[ 구독 취소 ]</a
+          >
+        </div>
+      </div>
     </div>
   </body>
 </html>
