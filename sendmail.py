@@ -3,6 +3,7 @@ import smtplib, ssl
 # from premailer import transform
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.header import Header
 from dotenv import load_dotenv
 
 from template.template import render_html
@@ -18,9 +19,14 @@ htmlMIME = MIMEText(render_html(), "html")
 
 # print(transform(htmlBody))
 
+# Make email sender(from)
+msgFrom = Header(os.getenv("EMAIL_SENDER"), 'utf-8')
+msgFrom.append(f'<{os.getenv("SMTP_ID")}>', 'ascii')
+
+# Make email MIME
 msg = MIMEMultipart("alternative")
 msg["Subject"] = "This is Subject"
-msg["From"] = os.getenv("EMAIL_SENDER")
+msg["From"] = msgFrom
 msg["To"] = "junglesubmarine@gmail.com"
 msg.attach(htmlMIME)
 
@@ -31,4 +37,4 @@ msg.attach(htmlMIME)
 context = ssl.create_default_context()
 with smtplib.SMTP_SSL(os.getenv("SMTP_HOST"), context=context) as smtp:
   smtp.login(os.getenv("SMTP_ID"), os.getenv("SMTP_PW")) # 아이디 비밀번호로 로그인
-  smtp.sendmail(msg["From"], msg["To"], msg.as_string())
+  smtp.sendmail(os.getenv("SMTP_ID"), msg["To"], msg.as_string())
