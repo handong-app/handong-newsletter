@@ -20,8 +20,8 @@ htmlMIME = MIMEText(render_html(), "html")
 # print(transform(htmlBody))
 
 # Make email sender(from)
-msgFrom = Header(os.getenv("EMAIL_SENDER"), 'utf-8')
-msgFrom.append(f'<{os.getenv("SMTP_ID")}>', 'ascii')
+msgFrom = Header(os.getenv("EMAIL_SENDER_NAME"), 'utf-8')
+msgFrom.append(f'<{os.getenv("EMAIL_SENDER_EMAIL")}>', 'ascii')
 
 # Make email MIME
 msg = MIMEMultipart("alternative")
@@ -37,4 +37,4 @@ msg.attach(htmlMIME)
 context = ssl.create_default_context()
 with smtplib.SMTP_SSL(os.getenv("SMTP_HOST"), context=context) as smtp:
   smtp.login(os.getenv("SMTP_ID"), os.getenv("SMTP_PW")) # 아이디 비밀번호로 로그인
-  smtp.sendmail(os.getenv("SMTP_ID"), msg["To"], msg.as_string())
+  smtp.sendmail(os.getenv("EMAIL_SENDER_EMAIL"), msg["To"], msg.as_string())
