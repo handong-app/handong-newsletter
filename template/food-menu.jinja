@@ -16,17 +16,57 @@
 
 <table>
   <tr class="first-tr">
+    <td colspan="3">맘스키친</td>
+  </tr>
+  <tr class="second-tr">
+    <td>아침</td>
+    <td>점심</td>
+    <td>저녁</td>
+  </tr>
+  <tr class="tr-menu">
+    <td>{{ food["momskitchen"]["breakfast"] }}</td>
+    <td>{{ food["momskitchen"]["lunch"] }}</td>
+    <td>{{ food["momskitchen"]["dinner"] }}</td>
+  </tr>
+</table>
+
+{# 라운지 방학때 미운영
+<table>
+  <tr class="first-tr">
+    <td colspan="2">라운지</td>
+  </tr>
+  <tr class="second-tr">
+    <td>점심</td>
+    <td>저녁</td>
+  </tr>
+  <tr class="tr-menu">
+    <td>{{ food["koreantable"]["lunch"] }}</td>
+    <td>{{ food["koreantable"]["dinner"] }}</td>
+  </tr>
+</table>
+#}
+
+<table>
+  <tr class="first-tr">
+    <td colspan="2">그레이스테이블</td>
+  </tr>
+  <tr class="second-tr">
+    <td>점심</td>
+    <td>저녁</td>
+  </tr>
+  <tr class="tr-menu">
+    <td>{{ food["gracetable"]["lunch"] }}</td>
+    <td>{{ food["gracetable"]["dinner"] }}</td>
+  </tr>
+</table>
+
+<table>
+  <tr class="first-tr">
     <td>따스한동</td>
     <td>FryFry</td>
-    <td>라운지</td>
-    <td>맘스키친</td>
-    <td>그레이스테이블</td>
   </tr>
   <tr class="tr-menu">
     <td>{{ food["mixedrice"] }}</td>
     <td>{{ food["fryfry"] }}</td>
-    <td>{{ food["lounge"] }}</td>
-    <td>{{ food["momskitchen"] }}</td>
-    <td>{{ food["gracetable"] }}</td>
   </tr>
 </table>
