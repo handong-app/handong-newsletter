@@ -1,8 +1,12 @@
 from jinja2 import Environment, FileSystemLoader
-import json
+import json, subprocess
+
+def runScript():
+  subprocess.call("npm run script --prefix handong-newsletter-script", shell=True)
 
 def render_html():
-  with open("template/template.json", encoding="utf8") as dummy_file:
+  runScript()
+  with open("handong-newsletter-script/data.json", encoding="utf8") as dummy_file:
     dummy = json.load(dummy_file)
     FOODDATA = dummy["food"]
     ANON_DATA = sorted(dummy["anon"], key=lambda x: x["view"], reverse=True)
