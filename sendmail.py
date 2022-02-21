@@ -6,7 +6,7 @@ from email.mime.multipart import MIMEMultipart
 from email.header import Header
 from dotenv import load_dotenv
 
-from template.template import render_html
+from template.template import render_html, todayDate
 
 # 시스템 변수 불러오기
 load_dotenv()
@@ -25,7 +25,7 @@ msgFrom.append(f'<{os.getenv("EMAIL_SENDER_EMAIL")}>', 'ascii')
 
 # Make email MIME
 msg = MIMEMultipart("alternative")
-msg["Subject"] = "This is Subject"
+msg["Subject"] = f"{{todayDate()[0]}} 한동 뉴스레터"
 msg["From"] = msgFrom
 msg["To"] = "junglesubmarine@gmail.com"
 msg.attach(htmlMIME)
