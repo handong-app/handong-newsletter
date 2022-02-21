@@ -10,10 +10,16 @@ jobs:
     name: "Send Newsletter Email"
     runs-on: ubuntu-latest
     steps:
+      - name: Setup timezone
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: Asia/Seoul
       - name: Checkout Branch
         uses: actions/checkout@v2
-        token: ${{secrets.SCRIPT_DEPLOY_PRIVATE}}
-        submodules: true
+        with:
+          ssh-key: ${{secrets.SCRIPT_DEPLOY_PRIVATE}}
+          ssh-known-hosts: ${{secrets.SSH_KNOWN_HOSTS}}
+          submodules: true
       - name: Install NodeJS
         uses: actions/setup-node@v2
         with:
