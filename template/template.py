@@ -1,8 +1,14 @@
 from jinja2 import Environment, FileSystemLoader
-import json, subprocess
+import json, subprocess, time, locale
 
 def runScript():
   subprocess.call("npm run script --prefix handong-newsletter-script", shell=True)
+
+def todayDate():
+  locale.setlocale(locale.LC_TIME, "ko")
+  day = time.strftime("%A")
+  date = time.strftime("%Y.%m.%d")
+  return [day, date]
 
 def render_html():
   runScript()
@@ -18,5 +24,5 @@ def render_html():
   )
   template = env.get_template("template/index.jinja")
 
-  rendered_html = template.render(name="Jungsub", food=FOODDATA, anon_hot=ANON_HOTDATA, anon_rest=ANON_RESTDATA)
+  rendered_html = template.render(date=todayDate(), food=FOODDATA, anon_hot=ANON_HOTDATA, anon_rest=ANON_RESTDATA)
   return rendered_html
