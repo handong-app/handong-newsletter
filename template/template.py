@@ -1,12 +1,12 @@
 from jinja2 import Environment, FileSystemLoader
-import json, subprocess, time, locale
+import json, subprocess, time
 
 def runScript():
   subprocess.call("npm run script --prefix handong-newsletter-script", shell=True)
 
 def todayDate():
-  locale.setlocale(locale.LC_TIME, "ko")
-  day = time.strftime("%A")
+  days = "일월화수목금토"
+  day = days[int(time.strftime("%w"))] + "요일"
   date = time.strftime("%Y.%m.%d")
   return [day, date]
 
