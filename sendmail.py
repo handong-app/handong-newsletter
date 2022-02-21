@@ -25,7 +25,7 @@ msgFrom.append(f'<{os.getenv("EMAIL_SENDER_EMAIL")}>', 'ascii')
 
 # Make email MIME
 msg = MIMEMultipart("alternative")
-msg["Subject"] = f"{{todayDate()[0]}} 한동 뉴스레터"
+msg["Subject"] = f"{todayDate()[0]} 한동 뉴스레터"
 msg["From"] = msgFrom
 msg["To"] = "junglesubmarine@gmail.com"
 msg.attach(htmlMIME)
