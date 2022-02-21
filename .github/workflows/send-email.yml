@@ -1,0 +1,36 @@
+name: Send Email (cron)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 22 * * *"
+
+jobs:
+  send_email:
+    name: "Send Newsletter Email"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v2
+        token: ${{secrets.SCRIPT_DEPLOY_PRIVATE}}
+        submodules: true
+      - name: Install NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+      - name: Run Python Script
+        run: python sendmail.py
+        env:
+          SMTP_HOST: smtp.gmail.com
+          SMTP_ID: ${{secrets.STMP_ID}}
+          SMTP_PW: ${{secrets.STMP_PW}}
+          EMAIL_SENDER_NAME: Handong Newsletter
+          EMAIL_SENDER_EMAIL: ${{secrets.STMP_ID}}
+          HISNET_ID: ${{secrets.HISNET_ID}}
+          HISNET_PW: ${{secrets.HISNET_PW}}
