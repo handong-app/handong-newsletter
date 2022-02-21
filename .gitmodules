@@ -1,0 +1,3 @@
+[submodule "handong-newsletter-script"]
+	path = handong-newsletter-script
+	url = git@gitlab.com:junglesubmarine/handong-newsletter-script.git
