@@ -2,7 +2,7 @@
 <div class="feat-list">
   {% for item in anon_hot %}
   <div class="feat-item">
-    <a href="{{ item.link }}" class="feat-text-title">{{ item.title }}</a>
+    <a href="{{ item.link }}" class="feat-text-title" rel="noopener noreferrer">{{ item.title }}</a>
     {{" ".join(item.content.replace("<br />", " ").split(" ")[:65])}}
   </div>
   {% endfor %}
@@ -13,7 +13,7 @@
   <ul>
     {% for item in anon_rest %}
     <li>
-      <a href="{{ item.link }}">{{ item.title }}</a>
+      <a href="{{ item.link }}"  rel="noopener noreferrer">{{ item.title }}</a>
     </li>
     {% endfor %}
   </ul>
