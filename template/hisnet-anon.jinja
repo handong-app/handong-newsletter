@@ -3,7 +3,7 @@
   {% for item in anon_hot %}
   <div class="feat-item">
     <a href="{{ item.link }}" class="feat-text-title">{{ item.title }}</a>
-    {{" ".join(item.content.split(" ")[:65])}}
+    {{" ".join(item.content.replace("<br />", " ").split(" ")[:65])}}
   </div>
   {% endfor %}
 </div>
