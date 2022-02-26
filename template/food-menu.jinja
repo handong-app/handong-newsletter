@@ -1,3 +1,4 @@
+{% if 'koreantable' in food %}
 <table>
   <tr class="first-tr">
     <td colspan="3">든든한동</td>
@@ -13,7 +14,9 @@
     <td>{{ food["koreantable"]["dinner"] }}</td>
   </tr>
 </table>
+{% endif %}
 
+{% if 'momskitchen' in food %}
 <table>
   <tr class="first-tr">
     <td colspan="3">맘스키친</td>
@@ -29,6 +32,7 @@
     <td>{{ food["momskitchen"]["dinner"] }}</td>
   </tr>
 </table>
+{% endif %}
 
 {# 라운지 방학때 미운영
 <table>
@@ -46,6 +50,7 @@
 </table>
 #}
 
+{% if 'gracetable' in food %}
 <table>
   <tr class="first-tr">
     <td colspan="2">그레이스테이블</td>
@@ -59,6 +64,7 @@
     <td>{{ food["gracetable"]["dinner"] }}</td>
   </tr>
 </table>
+{% endif %}
 
 <table>
   <tr class="first-tr">
@@ -66,7 +72,15 @@
     <td>FryFry</td>
   </tr>
   <tr class="tr-menu">
-    <td>{{ food["mixedrice"] }}</td>
-    <td>{{ food["fryfry"] }}</td>
+    <td>
+      {% if 'mixedrice' in food %}
+      {{ food["mixedrice"] }}
+      {% endif %}
+    </td>
+    <td>
+      {% if 'mixedrice' in food %}
+      {{ food["fryfry"] }}
+      {% endif %}
+    </td>
   </tr>
 </table>
