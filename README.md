@@ -26,7 +26,7 @@
 
 한동대학교 내부 내용을 다루는 프로젝트인만큼 한동대학교 학생들만 사용하실 수 있습니다. 한동대학교 구글 이메일 (@handong.edu or @handong.ac.kr) 으로만 구독하실 수 있으며, 구글 로그인을 하여 신청하셔야합니다.
 
-🔗 신청 사이트 - https://newsletter.handong.us
+🔗 신청 사이트 - https://handong-newsletter.web.app
 
 ## 👪 오픈소스 기여
 
