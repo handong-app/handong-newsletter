@@ -4,14 +4,20 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "www/**"
+    # paths:
+    #   - "www/**"
 
 jobs:
   deploy_www:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: cd www
+      - run: npm install
+      - run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
