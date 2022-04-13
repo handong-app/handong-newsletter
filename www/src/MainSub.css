@@ -1,0 +1,31 @@
+.MainSub {
+  text-align: center;
+}
+
+.MainSub .btn {
+  background-color: #f2f2f2;
+  padding: 1em;
+  text-align: center;
+  margin-top: 1.5em;
+  color: black;
+  /* cursor: pointer; */
+  user-select: none;
+}
+
+.MainSub .sub-btn {
+  cursor: not-allowed;
+}
+
+.MainSub .subList {
+  user-select: none;
+}
+
+.MainSub .activate {
+  cursor: pointer;
+  background-color: #066163;
+  color: white;
+}
+
+.MainSub .activate.sub-btn:active {
+  background-color: #075556;
+}

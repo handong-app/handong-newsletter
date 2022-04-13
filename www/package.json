@@ -8,8 +8,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "firebase": "^9.6.10",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-firebase-hooks": "^5.0.3",
+    "react-google-button": "^0.7.2"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.7",
