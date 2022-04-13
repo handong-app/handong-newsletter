@@ -23,3 +23,22 @@ body {
 .small a {
   color: skyblue;
 }
+
+.suffix {
+  color: lightgrey;
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  left: 0;
+  right: 0;
+  font-size: 0.7em;
+}
+
+.suffix a {
+  color: skyblue;
+  text-decoration: none;
+}
+
+.suffix div {
+  margin: 1em;
+}

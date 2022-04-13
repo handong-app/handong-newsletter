@@ -71,9 +71,7 @@ function MainSub() {
         )}
         <div className="small">
           {user.email} 으로 매일 7시마다 전송됩니다. <br />
-          <a onClick={() => auth.signOut()} href="javascript:void()">
-            [로그아웃]
-          </a>
+          <a onClick={() => auth.signOut()}>[로그아웃]</a>
         </div>
       </div>
     </div>

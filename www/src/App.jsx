@@ -16,6 +16,23 @@ function App() {
     <div className="App">
       <h1 className="title">한동 뉴스레터</h1>
       {user ? <MainSub /> : <Login />}
+      <div className="suffix">
+        <div>
+          본 프로젝트는 한동대학교와 아무런 연관이 없으며
+          <br />
+          한동대학교 재학생이 직접 제작하여 관리하는 프로젝트입니다.
+        </div>
+        <div>
+          <a
+            href="https://github.com/junglesub/handong-newsletter"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            [ 오픈소스 ]
+          </a>
+          <br />© {new Date().getFullYear()} 한동 뉴스레터
+        </div>
+      </div>
     </div>
   );
 }
