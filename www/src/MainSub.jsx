@@ -32,6 +32,7 @@ function MainSub() {
   const [subData, loading] = useDocumentData(userSubDoc);
 
   const [cboxSubscribe, setCboxSubscribe] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
 
   console.log(subData, loading);
 
@@ -41,7 +42,17 @@ function MainSub() {
       email: user.email,
       name: user.displayName,
       updated: serverTimestamp(),
-    });
+    })
+      .then(() => setErrorMsg(""))
+      .catch((e) => {
+        if (e.code === "permission-denied")
+          setErrorMsg("[권한 없음] handong.ac.kr 이메일을 사용중이신가요?");
+        else {
+          setErrorMsg(
+            "오류 발생 - newsletter@handong.us 으로 메일 보내주세요!"
+          );
+        }
+      });
   };
 
   if (loading) if (loading) return <div className="loading">Loading...</div>;
@@ -69,6 +80,7 @@ function MainSub() {
             구독 신청
           </div>
         )}
+        <div className="error-msg">{errorMsg}</div>
         <div className="small">
           {user.email} 으로 매일 7시마다 전송됩니다. <br />
           <a onClick={() => auth.signOut()}>[로그아웃]</a>

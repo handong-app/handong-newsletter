@@ -33,3 +33,8 @@
 .MainSub .activate.sub-btn:active {
   background-color: #075556;
 }
+
+.MainSub .error-msg {
+  color: #ff9b9b;
+  font-weight: bold;
+}
