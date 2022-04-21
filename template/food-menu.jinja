@@ -69,7 +69,8 @@
 <table>
   <tr class="first-tr">
     <td>따스한동</td>
-    <td>FryFry</td>
+    <td>H:plate</td>
+    <td>Han's deli</td>
   </tr>
   <tr class="tr-menu">
     <td>
@@ -78,8 +79,13 @@
       {% endif %}
     </td>
     <td>
-      {% if 'mixedrice' in food %}
-      {{ food["fryfry"] }}
+      {% if 'hPlate' in food %}
+      {{ food["hPlate"] }}
+      {% endif %}
+    </td>
+    <td>
+      {% if 'hansDeli' in food %}
+      {{ food["hansDeli"] }}
       {% endif %}
     </td>
   </tr>
