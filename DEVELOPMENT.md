@@ -9,3 +9,10 @@ pip install -r requirements.txt
 ```
 python live-mail-pv
 ```
+
+## Handong News Letter (Submodule) 업데이트
+
+```
+git submodule update --remote # submodule 추가하기
+git submodule foreach git reset --hard # 리셋하기
+```
