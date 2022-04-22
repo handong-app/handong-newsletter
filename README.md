@@ -2,7 +2,7 @@
 <h1>Handong Newsletter</h1>
 한동인을 위한 이메일 뉴스레터 서비스
 
-[[&nbsp;구독하기&nbsp;]](https://handong-newsletter.web.app)&nbsp;&nbsp;[[&nbsp;피드백/문의&nbsp;]](https://handong-newsletter.web.app)
+[[&nbsp;구독하기&nbsp;]](https://handong-newsletter.web.app)&nbsp;&nbsp;[[&nbsp;피드백/문의&nbsp;]](https://handong-newsletter.web.app/form)
 
 </div>
 
@@ -33,9 +33,8 @@
 
 ## 👪 오픈소스 기여
 
-본 프로젝트는 오픈소스로 진행되며, 관련 전공생들의 "기여"를 기다리고 있습니다.
-
-만약에 직접 기여해주실 시간이 없으시다면, 피드백을 [구글폼](https://handong-newsletter.web.app/form)에 남겨주세요!
+본 프로젝트는 오픈소스로 진행되며, 관련 전공생들의 "기여"를 기다리고 있습니다.  
+Issue/PR, [구글폼](https://handong-newsletter.web.app/form)을 통해 기여하실 수 있습니다.
 
 💡 **아이디어** - 불편함을 해소하고자 시작한 프로젝트인 만큼, 여러분이 사용하시면서 불편하신 점이나 있으면 좋을 것 같은 기능이 있으시다면, 이슈나 메일 (newsletter@handong.us) 으로 알려주세요!
 
