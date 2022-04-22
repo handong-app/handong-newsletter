@@ -31,11 +31,7 @@ function App() {
             [ 오픈소스 ]
           </a>
           &nbsp;&nbsp;
-          <a
-            href="https://github.com/junglesub/handong-newsletter"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
+          <a href="/form" rel="noopener noreferrer" target="_blank">
             [ 구글폼(피드백/문의) ]
           </a>
           <br />© {new Date().getFullYear()} 한동 뉴스레터
