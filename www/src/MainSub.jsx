@@ -49,7 +49,7 @@ function MainSub() {
           setErrorMsg("[권한 없음] handong.ac.kr 이메일을 사용중이신가요?");
         else {
           setErrorMsg(
-            "오류 발생 - newsletter@handong.us 으로 메일 보내주세요!"
+            "오류 발생 - junglesubmarine@gmail.com 으로 메일 보내주세요!"
           );
         }
       });
