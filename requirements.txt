@@ -2,3 +2,4 @@ python-dotenv
 jinja2
 premailer
 livereload
+firebase-admin
