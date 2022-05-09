@@ -20,7 +20,7 @@ class firebase_handler:
     db = firestore.client(self.app)
     docs = db.collection(u'subscribers').stream()
 
-    doc_list = [doc.to_dict() for doc in docs]
+    doc_list = [{**doc.to_dict(), "id": doc.id} for doc in docs if doc.id != "userID"]
     db.close()
     return doc_list
 
