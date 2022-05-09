@@ -5,6 +5,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
 from dotenv import load_dotenv
+from firebase_handler import firebase_handler
 
 from template.template import render_html, todayDate
 
@@ -14,7 +15,6 @@ load_dotenv()
 # 메일 준비하기
 # htmlFile = open("newsletter.html", "r", encoding="utf-8")
 # htmlBody = htmlFile.read()
-htmlMIME = MIMEText(render_html(), "html")
 # htmlFile.close()
 
 # print(transform(htmlBody))
@@ -27,14 +27,29 @@ msgFrom.append(f'<{os.getenv("EMAIL_SENDER_EMAIL")}>', 'ascii')
 msg = MIMEMultipart("alternative")
 msg["Subject"] = f"{todayDate()[0]} 한동 뉴스레터"
 msg["From"] = msgFrom
-msg["To"] = "junglesubmarine@gmail.com"
-msg.attach(htmlMIME)
 
-# smtp = smtplib.SMTP('localhost')
-# smtp.sendmail("test@example.com", "junglesubmarine@gmail.com", msg.as_string())
+def send_email(smtp, to_user, html):
+  email = to_user["email"]
+  msg["To"] = email
+  htmlMIME = MIMEText(html, "html")
+  msg.attach(htmlMIME)
+  smtp.sendmail(os.getenv("EMAIL_SENDER_EMAIL"), msg["To"], msg.as_string())
+  print("Sent to %s" % (email[0] + "#####" + email[email.find("@") - 1:]))
+
+# 지금은 하나의 HTML 만 사용. 나중에는 변경될 예정.
+html = "" # render_html()
+
+# Mailing List 가져오기
+firebase_app = firebase_handler()
+mailing_list = firebase_app.get_mailing_list()
+print("Got %d email(s) to send." % len(mailing_list))
 
 # 메일 보내기
 context = ssl.create_default_context()
 with smtplib.SMTP_SSL(os.getenv("SMTP_HOST"), context=context) as smtp:
   smtp.login(os.getenv("SMTP_ID"), os.getenv("SMTP_PW")) # 아이디 비밀번호로 로그인
-  smtp.sendmail(os.getenv("EMAIL_SENDER_EMAIL"), msg["To"], msg.as_string())
+  for user in mailing_list:
+    send_email(smtp, user, html)
+
+# smtp = smtplib.SMTP('localhost')
+# smtp.sendmail("test@example.com", "junglesubmarine@gmail.com", msg.as_string())
