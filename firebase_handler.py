@@ -4,7 +4,6 @@ from firebase_admin import firestore
 import os
 from dotenv import load_dotenv
 import json
-import re
 
 load_dotenv()
 
