@@ -37,7 +37,7 @@ def send_email(smtp, to_user, html):
   print("Sent to %s" % (email[0] + "#####" + email[email.find("@") - 1:]))
 
 # 지금은 하나의 HTML 만 사용. 나중에는 변경될 예정.
-html = "" # render_html()
+html = render_html()
 
 # Mailing List 가져오기
 firebase_app = firebase_handler()
