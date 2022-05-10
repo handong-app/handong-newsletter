@@ -40,3 +40,4 @@ jobs:
           EMAIL_SENDER_EMAIL: ${{secrets.STMP_ID}}
           HISNET_ID: ${{secrets.HISNET_ID}}
           HISNET_PW: ${{secrets.HISNET_PW}}
+          FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
