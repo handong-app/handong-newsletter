@@ -38,7 +38,7 @@ jobs:
           SMTP_ID: ${{secrets.SMTP_ID}}
           SMTP_PW: ${{secrets.SMTP_PW}}
           EMAIL_SENDER_NAME: Handong Newsletter
-          EMAIL_SENDER_EMAIL: ${{secrets.STMP_ID}}
+          EMAIL_SENDER_EMAIL: ${{secrets.EMAIL_SENDER_EMAIL}}
           HISNET_ID: ${{secrets.HISNET_ID}}
           HISNET_PW: ${{secrets.HISNET_PW}}
           FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
