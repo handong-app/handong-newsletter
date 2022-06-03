@@ -34,6 +34,14 @@ function App() {
           <a href="/form" rel="noopener noreferrer" target="_blank">
             [ 구글폼(피드백/문의) ]
           </a>
+          &nbsp;&nbsp;
+          <a
+            href="https://github.com/junglesub/handong-newsletter"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            [ 깃허브 ]
+          </a>
           <br />© {new Date().getFullYear()} 한동 뉴스레터
         </div>
       </div>
