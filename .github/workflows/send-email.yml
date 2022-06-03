@@ -33,9 +33,10 @@ jobs:
       - name: Run Python Script
         run: python sendmail.py
         env:
-          SMTP_HOST: smtp.gmail.com
-          SMTP_ID: ${{secrets.STMP_ID}}
-          SMTP_PW: ${{secrets.STMP_PW}}
+          SMTP_HOST: ${{secrets.SMTP_HOST}}
+          SMTP_PORT: ${{secrets.SMTP_PORT}}
+          SMTP_ID: ${{secrets.SMTP_ID}}
+          SMTP_PW: ${{secrets.SMTP_PW}}
           EMAIL_SENDER_NAME: Handong Newsletter
           EMAIL_SENDER_EMAIL: ${{secrets.STMP_ID}}
           HISNET_ID: ${{secrets.HISNET_ID}}

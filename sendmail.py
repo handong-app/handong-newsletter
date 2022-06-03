@@ -20,7 +20,7 @@ load_dotenv()
 # print(transform(htmlBody))
 
 # Make email sender(from)
-msgFrom = Header(os.getenv("EMAIL_SENDER_NAME"), 'utf-8')
+msgFrom = Header(f'\'{os.getenv("EMAIL_SENDER_NAME")}\'', 'utf-8')
 msgFrom.append(f'<{os.getenv("EMAIL_SENDER_EMAIL")}>', 'ascii')
 
 # Make email MIME
@@ -45,8 +45,11 @@ mailing_list = firebase_app.get_mailing_list()
 print("Got %d email(s) to send." % len(mailing_list))
 
 # 메일 보내기
-context = ssl.create_default_context()
-with smtplib.SMTP_SSL(os.getenv("SMTP_HOST"), context=context) as smtp:
+# context = ssl.create_default_context()
+with smtplib.SMTP(os.getenv("SMTP_HOST"), port=os.getenv("SMTP_PORT")) as smtp:
+  smtp.ehlo()
+  smtp.starttls()
+  smtp.ehlo()
   smtp.login(os.getenv("SMTP_ID"), os.getenv("SMTP_PW")) # 아이디 비밀번호로 로그인
   for user in mailing_list:
     send_email(smtp, user, html)
