@@ -46,10 +46,10 @@ print("Got %d email(s) to send." % len(mailing_list))
 
 # 메일 보내기
 # context = ssl.create_default_context()
-with smtplib.SMTP(os.getenv("SMTP_HOST"), port=os.getenv("SMTP_PORT")) as smtp:
+with smtplib.SMTP_SSL(os.getenv("SMTP_HOST"), port=os.getenv("SMTP_PORT")) as smtp:
   smtp.ehlo()
-  smtp.starttls()
-  smtp.ehlo()
+  # smtp.starttls()
+  # smtp.ehlo()
   smtp.login(os.getenv("SMTP_ID"), os.getenv("SMTP_PW")) # 아이디 비밀번호로 로그인
   for user in mailing_list:
     send_email(smtp, user, html)
