@@ -1,5 +1,6 @@
 import os
 import smtplib, ssl
+import time
 # from premailer import transform
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -53,6 +54,7 @@ with smtplib.SMTP_SSL(os.getenv("SMTP_HOST"), port=os.getenv("SMTP_PORT")) as sm
   smtp.login(os.getenv("SMTP_ID"), os.getenv("SMTP_PW")) # 아이디 비밀번호로 로그인
   for user in mailing_list:
     send_email(smtp, user, html)
+    time.sleep(1)
 
 # smtp = smtplib.SMTP('localhost')
 # smtp.sendmail("test@example.com", "junglesubmarine@gmail.com", msg.as_string())
