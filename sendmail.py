@@ -24,13 +24,13 @@ load_dotenv()
 msgFrom = Header(f'\'{os.getenv("EMAIL_SENDER_NAME")}\'', 'utf-8')
 msgFrom.append(f'<{os.getenv("EMAIL_SENDER_EMAIL")}>', 'ascii')
 
-# Make email MIME
-msg = MIMEMultipart("alternative")
-msg["Subject"] = f"{todayDate()[0]} 한동 뉴스레터"
-msg["From"] = msgFrom
 
 def send_email(smtp, to_user, html):
   email = to_user["email"]
+  # Make email MIME
+  msg = MIMEMultipart("alternative")
+  msg["Subject"] = f"{todayDate()[0]} 한동 뉴스레터"
+  msg["From"] = msgFrom
   msg["To"] = email
   htmlMIME = MIMEText(html, "html")
   msg.attach(htmlMIME)
@@ -54,7 +54,7 @@ with smtplib.SMTP_SSL(os.getenv("SMTP_HOST"), port=os.getenv("SMTP_PORT")) as sm
   smtp.login(os.getenv("SMTP_ID"), os.getenv("SMTP_PW")) # 아이디 비밀번호로 로그인
   for user in mailing_list:
     send_email(smtp, user, html)
-    time.sleep(1)
+    time.sleep(0.5)
 
 # smtp = smtplib.SMTP('localhost')
 # smtp.sendmail("test@example.com", "junglesubmarine@gmail.com", msg.as_string())
