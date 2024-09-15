@@ -14,7 +14,7 @@ def render_html():
   runScript()
   with open("handong-newsletter-script/data.json", encoding="utf8") as dummy_file:
     dummy = json.load(dummy_file)
-    FOODDATA = dummy["food"]
+    FOODDATA = dummy.get("food", None)
     ANON_DATA = sorted(dummy["anon"], key=lambda x: x["view"], reverse=True)
     ANON_HOTDATA = ANON_DATA[:5]
     ANON_RESTDATA = ANON_DATA[5:]

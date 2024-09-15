@@ -130,10 +130,12 @@
       </div>
 
       <!-- 식단 -->
+      {% if food %}
       <div class="food-menu">
         <div class="sec-header">오늘의 식단</div>
         {%include "template/food-menu.jinja" %}
       </div>
+      {% endif %}
 
       {% if anon_hot | length != 0 %}
       <div class="hisnet-anon">
