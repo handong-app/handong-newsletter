@@ -6,6 +6,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
 from dotenv import load_dotenv
+from config import FIREBASE_CONFIG, EMAIL_SENDER_EMAIL,SMTP_HOST,SMTP_PORT,SMTP_ID,SMTP_PW
 from firebase_handler import firebase_handler
 
 from template.template import render_html, todayDate
@@ -21,8 +22,8 @@ load_dotenv()
 # print(transform(htmlBody))
 
 # Make email sender(from)
-msgFrom = Header(f'\'{os.getenv("EMAIL_SENDER_NAME")}\'', 'utf-8')
-msgFrom.append(f'<{os.getenv("EMAIL_SENDER_EMAIL")}>', 'ascii')
+msgFrom = Header(f'\'{FIREBASE_CONFIG}\'', 'utf-8')
+msgFrom.append(f'<{EMAIL_SENDER_EMAIL}>', 'ascii')
 
 
 def send_email(smtp, to_user, html):
@@ -34,7 +35,7 @@ def send_email(smtp, to_user, html):
   msg["To"] = email
   htmlMIME = MIMEText(html, "html")
   msg.attach(htmlMIME)
-  smtp.sendmail(os.getenv("EMAIL_SENDER_EMAIL"), msg["To"], msg.as_string())
+  smtp.sendmail(EMAIL_SENDER_EMAIL, msg["To"], msg.as_string())
   print("Sent to %s" % (email[0] + "#####" + email[email.find("@") - 1:]))
 
 # 지금은 하나의 HTML 만 사용. 나중에는 변경될 예정.
@@ -47,11 +48,11 @@ print("Got %d email(s) to send." % len(mailing_list))
 
 # 메일 보내기
 # context = ssl.create_default_context()
-with smtplib.SMTP_SSL(os.getenv("SMTP_HOST"), port=os.getenv("SMTP_PORT")) as smtp:
+with smtplib.SMTP_SSL(SMTP_HOST, port=SMTP_PORT) as smtp:
   smtp.ehlo()
   # smtp.starttls()
   # smtp.ehlo()
-  smtp.login(os.getenv("SMTP_ID"), os.getenv("SMTP_PW")) # 아이디 비밀번호로 로그인
+  smtp.login(SMTP_ID, SMTP_PW) # 아이디 비밀번호로 로그인
   for user in mailing_list:
     send_email(smtp, user, html)
     time.sleep(0.5)

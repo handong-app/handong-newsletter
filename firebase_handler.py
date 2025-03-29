@@ -5,11 +5,13 @@ import os
 from dotenv import load_dotenv
 import json
 
+from config import FIREBASE_CONFIG
+
 load_dotenv()
 
 class firebase_handler:
   def __init__(self):
-    service_acc_key = json.loads(os.getenv("FIREBASE_CONFIG"))
+    service_acc_key = json.loads(FIREBASE_CONFIG)
     cred = credentials.Certificate(service_acc_key)
     print("Project ID: %s (Service Acc: %s)" % (cred.project_id, cred.service_account_email))
 
