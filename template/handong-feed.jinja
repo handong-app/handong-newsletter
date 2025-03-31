@@ -1,0 +1,19 @@
+<div class="anon-desc">※ <a href="https://feed.handong.app" class="feed-text-title" rel="noopener noreferrer" target="_blank">한동피드</a>에서 선별된 게시물입니다.</div>
+
+  <div class="feed-list">
+    {% for item in feed %}
+    <div class="feed-item">
+      <a href="{{ item.direct_url }}" class="feed-image-a" target="_blank" rel="noopener noreferrer">
+        <img src="{{ item.image }}" class="feed-image" />
+      </a>
+      <div class="feed-text">
+        <div>{{" ".join(item.message.replace("<br />", " ").split(" ")[:65])}}</div>
+        <div class="feed-learnmore">
+        <a href="{{ item.direct_url }}" class="feed-text-title" target="_blank" rel="noopener noreferrer">> 한동피드에서 더 보기</a>
+      </div>
+      </div>
+      
+    </div>
+    {% endfor %}
+  </div>
+
