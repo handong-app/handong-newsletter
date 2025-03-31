@@ -1,6 +1,9 @@
 from jinja2 import Environment, FileSystemLoader
 import json, subprocess, time
 
+from api_clients import FeedAPIClient
+from config import TEST_RUN
+
 def runScript():
   subprocess.call("npm run script --prefix handong-newsletter-script", shell=True)
 
@@ -11,7 +14,8 @@ def todayDate():
   return [day, date]
 
 def render_html():
-  runScript()
+  if not TEST_RUN:
+    runScript()
   with open("handong-newsletter-script/data.json", encoding="utf8") as dummy_file:
     dummy = json.load(dummy_file)
     FOODDATA = dummy.get("food", None)
@@ -24,5 +28,8 @@ def render_html():
   )
   template = env.get_template("template/index.jinja")
 
-  rendered_html = template.render(date=todayDate(), food=FOODDATA, anon_hot=ANON_HOTDATA, anon_rest=ANON_RESTDATA)
+  FEED_DATA = FeedAPIClient("API_KEY").get_top()[:3]
+  print(FEED_DATA)
+
+  rendered_html = template.render(date=todayDate(), food=FOODDATA, anon_hot=ANON_HOTDATA, anon_rest=ANON_RESTDATA, feed=FEED_DATA)
   return rendered_html
