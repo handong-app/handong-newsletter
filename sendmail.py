@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
 from dotenv import load_dotenv
-from config import FIREBASE_CONFIG, EMAIL_SENDER_EMAIL,SMTP_HOST,SMTP_PORT,SMTP_ID,SMTP_PW
+from config import EMAIL_SENDER_EMAIL,SMTP_HOST,SMTP_PORT,SMTP_ID,SMTP_PW
 from firebase_handler import firebase_handler
 
 from template.template import render_html, todayDate
@@ -22,7 +22,7 @@ load_dotenv()
 # print(transform(htmlBody))
 
 # Make email sender(from)
-msgFrom = Header(f'\'{FIREBASE_CONFIG}\'', 'utf-8')
+msgFrom = Header(f'\'{EMAIL_SENDER_EMAIL}\'', 'utf-8')
 msgFrom.append(f'<{EMAIL_SENDER_EMAIL}>', 'ascii')
 
 
