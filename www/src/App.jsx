@@ -24,7 +24,7 @@ function App() {
         </div>
         <div>
           <a
-            href="https://github.com/junglesub/handong-newsletter"
+            href="https://github.com/handong-app/handong-newsletter"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -36,7 +36,7 @@ function App() {
           </a>
           &nbsp;&nbsp;
           <a
-            href="https://github.com/junglesub/handong-newsletter"
+            href="https://github.com/handong-app/handong-newsletter"
             rel="noopener noreferrer"
             target="_blank"
           >
