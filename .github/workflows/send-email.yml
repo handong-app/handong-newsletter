@@ -14,6 +14,15 @@ jobs:
         uses: zcong1993/setup-timezone@master
         with:
           timezone: Asia/Seoul
+      - name: Import Environment Variables from Infisical
+        uses: Infisical/secrets-action@v1.0.7
+        with:
+          method: "oidc"
+          env-slug: "prod"
+          domain: "${{ secrets.INFISICAL_DOMAIN }}"
+          project-slug: "newsletter-h-qsg"
+          identity-id: "${{ secrets.INFISICAL_IDENTITY }}"
+        continue-on-error: true
       - name: Checkout Branch
         uses: actions/checkout@v2
         with:
