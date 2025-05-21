@@ -10,6 +10,7 @@ function TempSignup() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [emailValue, setEmailValue] = useState(""); // 이메일 입력 값을 위한 상태 추가
   const [mailLoading, setMailLoading] = useState(false); // 이메일 로딩 상태 추가
+  const [currentNumberOfEmails, setCurrentNumberOfEmails] = useState(3); // 표시할 이메일 아이콘 수 상태 추가
   const riveContainerRef = useRef(null); // Rive 컨테이너를 위한 ref 생성
   const emailInputRef = useRef(null); // 이메일 입력을 위한 ref 생성
 
@@ -148,10 +149,11 @@ function TempSignup() {
     try {
       // 여기에 실제 구독 요청 로직을 추가합니다.
       // 예: await fetch('/api/subscribe', { method: 'POST', body: JSON.stringify({ email: emailValue }) });
-      console.log("구독 요청:", emailValue);
-      // await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      const subscribedEmail = emailValue; // 토스트에 현재 이메일 값을 표시하기 위해 저장
+      console.log("구독 요청:", subscribedEmail);
       setEmailValue(""); // 구독 후 이메일 입력 필드 초기화
-      toast.success(`${emailValue} (으)로 구독 요청이 완료되었습니다!`);
+      toast.success(`${subscribedEmail} (으)로 구독 요청이 완료되었습니다!`);
+      setCurrentNumberOfEmails((prevCount) => prevCount + 1); // 이메일 아이콘 수 증가
     } catch (error) {
       console.error("구독 요청 실패:", error);
       toast.error("구독 요청에 실패했습니다. 다시 시도해주세요.");
@@ -209,7 +211,7 @@ function TempSignup() {
           구독하기
         </button>
       </div>
-      <EmailOverlay />
+      <EmailOverlay displayedEmails={currentNumberOfEmails} />
     </div>
   );
 }

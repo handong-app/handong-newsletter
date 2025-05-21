@@ -3,7 +3,6 @@ import { useSprings, animated, config } from "react-spring";
 import "./EmailOverlay.css";
 import emailIcon from "./email.png";
 
-const numberOfEmails = 7; // 아이콘 개수
 const iconSize = 40; // 아이콘 크기
 
 // 화면 크기를 가져오는 헬퍼 함수
@@ -12,41 +11,65 @@ const getWindowDimensions = () => {
   return { width, height };
 };
 
-function EmailOverlay() {
+function EmailOverlay({ displayedEmails = 3 }) {
+  // displayedEmails prop 추가, 기본값 3
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
   const overlayRef = useRef(null);
 
-  // 각 아이콘의 최종 위치 및 회전을 미리 계산 (바닥에 흩뿌려진 느낌)
-  // 이 상태는 컴포넌트 마운트 시 한 번만 계산됩니다.
-  const [initialStyles] = useState(() =>
-    Array(numberOfEmails)
+  // displayedEmails가 변경될 때마다 initialStyles를 다시 계산합니다.
+  const [initialStyles, setInitialStyles] = useState(() =>
+    Array(displayedEmails)
       .fill({})
       .map(() => ({
         x:
           Math.random() * (windowDimensions.width - iconSize * 2) +
-          iconSize / 2, // 아이콘이 가장자리에 너무 붙지 않도록
-        y: windowDimensions.height - iconSize - Math.random() * 60, // 바닥 근처, 약간의 y 변형
-        rotation: Math.random() * 120 - 60, // -60도에서 60도 사이의 넓은 범위 회전
+          iconSize / 2,
+        y: windowDimensions.height - iconSize - Math.random() * 60,
+        rotation: Math.random() * 120 - 60,
       }))
   );
 
-  const [springs, api] = useSprings(numberOfEmails, (i) => ({
-    from: {
-      // 시작 위치: 화면 상단, x는 최종 x와 비슷하게, 회전은 0
-      transform: `translateY(-250px) translateX(${
-        initialStyles[i].x + (Math.random() - 0.5) * 50
-      }px) rotate(0deg)`,
-      opacity: 0,
-    },
-    to: {
-      transform: `translateX(${initialStyles[i].x}px) translateY(${initialStyles[i].y}px) rotate(${initialStyles[i].rotation}deg)`,
-      opacity: 1,
-    },
-    config: { ...config.gentle, mass: 1, tension: 120, friction: 14 },
-    delay: i * 100 + Math.random() * 200, // 순차적 + 약간의 무작위 딜레이
-  }));
+  // displayedEmails prop이 변경되면 initialStyles를 업데이트합니다.
+  useEffect(() => {
+    setInitialStyles(
+      Array(displayedEmails)
+        .fill({})
+        .map(() => ({
+          x:
+            Math.random() * (windowDimensions.width - iconSize * 2) +
+            iconSize / 2,
+          y: windowDimensions.height - iconSize - Math.random() * 60,
+          rotation: Math.random() * 120 - 60,
+        }))
+    );
+  }, [displayedEmails, windowDimensions]);
+
+  const [springs, api] = useSprings(
+    displayedEmails,
+    (i) => ({
+      from: {
+        transform: `translateY(-250px) translateX(${
+          initialStyles[i]
+            ? initialStyles[i].x + (Math.random() - 0.5) * 50
+            : Math.random() * windowDimensions.width
+        }px) rotate(0deg)`,
+        opacity: 0,
+      },
+      to: {
+        transform: `translateX(${
+          initialStyles[i] ? initialStyles[i].x : 0
+        }px) translateY(${
+          initialStyles[i] ? initialStyles[i].y : 0
+        }px) rotate(${initialStyles[i] ? initialStyles[i].rotation : 0}deg)`,
+        opacity: 1,
+      },
+      config: { ...config.gentle, mass: 1, tension: 120, friction: 14 },
+      delay: i * 100 + Math.random() * 200,
+    }),
+    [initialStyles] // initialStyles를 의존성 배열에 추가
+  );
 
   useEffect(() => {
     function handleResize() {
@@ -74,6 +97,8 @@ function EmailOverlay() {
     const mouseY = e.clientY - rect.top;
 
     api.start((index) => {
+      // initialStyles[index]가 존재할 때만 로직 실행
+      if (!initialStyles[index]) return {};
       const { x, y, rotation } = initialStyles[index];
       // 아이콘의 중심점 계산
       const iconCenterX = x + iconSize / 2;
@@ -111,10 +136,14 @@ function EmailOverlay() {
 
   const handleMouseLeave = () => {
     // 마우스가 오버레이 영역을 벗어나면 모든 아이콘을 원래 위치로 되돌림
-    api.start((index) => ({
-      transform: `translateX(${initialStyles[index].x}px) translateY(${initialStyles[index].y}px) rotate(${initialStyles[index].rotation}deg)`,
-      config: { ...config.gentle, tension: 150, friction: 20 },
-    }));
+    api.start((index) => {
+      // initialStyles[index]가 존재할 때만 로직 실행
+      if (!initialStyles[index]) return {};
+      return {
+        transform: `translateX(${initialStyles[index].x}px) translateY(${initialStyles[index].y}px) rotate(${initialStyles[index].rotation}deg)`,
+        config: { ...config.gentle, tension: 150, friction: 20 },
+      };
+    });
   };
 
   return (
