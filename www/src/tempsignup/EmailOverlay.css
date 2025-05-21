@@ -1,0 +1,18 @@
+.email-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden; /* 아이콘이 화면 밖으로 나가지 않도록 */
+  cursor: default; /* 기본 커서 사용 */
+  z-index: 3;
+  pointer-events: none; /* 마우스 이벤트가 하위 요소로 전달되도록 설정 */
+}
+
+.email-icon {
+  /* position, width, height 등은 JSX에서 직접 설정 */
+  user-select: none; /* 아이콘 선택 방지 */
+  pointer-events: none; /* 아이콘이 마우스 이벤트를 가로채지 않도록 */
+}

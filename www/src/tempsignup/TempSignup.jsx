@@ -4,6 +4,7 @@ import { Toaster, toast } from "react-hot-toast"; // react-hot-toast 추가
 import "./TempSignup.css";
 import emailImage from "./email.png";
 import riveAnimation from "./rive.riv"; // rive.riv 파일 임포트
+import EmailOverlay from "./EmailOverlay";
 
 function TempSignup() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -208,6 +209,7 @@ function TempSignup() {
           구독하기
         </button>
       </div>
+      <EmailOverlay />
     </div>
   );
 }
