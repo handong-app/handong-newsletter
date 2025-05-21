@@ -9,6 +9,8 @@ jobs:
   send_email:
     name: "Send Newsletter Email"
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # OIDC 토큰을 사용하여 Infisical에 인증
     steps:
       - name: Setup timezone
         uses: zcong1993/setup-timezone@master
