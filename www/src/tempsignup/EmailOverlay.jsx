@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSprings, animated, config } from "react-spring";
+import Matter from "matter-js";
 import "./EmailOverlay.css";
 import emailIcon from "./email.png";
 
-const iconSize = 40; // 아이콘 크기
+const iconSize = 40; // 아이콘 크기 (물리 객체의 반경과 관련)
 
 // 화면 크기를 가져오는 헬퍼 함수
 const getWindowDimensions = () => {
@@ -12,156 +12,167 @@ const getWindowDimensions = () => {
 };
 
 function EmailOverlay({ displayedEmails = 3 }) {
-  // displayedEmails prop 추가, 기본값 3
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
-  const overlayRef = useRef(null);
+  const sceneRef = useRef(null); // Matter.js 렌더러를 위한 ref
+  const engineRef = useRef(Matter.Engine.create());
+  const runnerRef = useRef(Matter.Runner.create());
+  const [bodies, setBodies] = useState([]); // 물리 객체들의 상태를 저장
 
-  // displayedEmails가 변경될 때마다 initialStyles를 다시 계산합니다.
-  const [initialStyles, setInitialStyles] = useState(() =>
-    Array(displayedEmails)
-      .fill({})
-      .map(() => ({
-        x:
-          Math.random() * (windowDimensions.width - iconSize * 2) +
-          iconSize / 2,
-        y: windowDimensions.height - iconSize - Math.random() * 60,
-        rotation: Math.random() * 120 - 60,
-      }))
-  );
-
-  // displayedEmails prop이 변경되면 initialStyles를 업데이트합니다.
+  // Matter.js 초기 설정
   useEffect(() => {
-    setInitialStyles(
-      Array(displayedEmails)
-        .fill({})
-        .map(() => ({
-          x:
-            Math.random() * (windowDimensions.width - iconSize * 2) +
-            iconSize / 2,
-          y: windowDimensions.height - iconSize - Math.random() * 60,
-          rotation: Math.random() * 120 - 60,
-        }))
+    const engine = engineRef.current;
+    engine.gravity.y = 0.5; // 중력 설정 (아래 방향으로) - 최신 방식
+    const runner = runnerRef.current;
+
+    // 벽 생성 (화면 경계)
+    const wallOptions = { isStatic: true, restitution: 0.5, friction: 0.1 };
+    Matter.World.add(engine.world, [
+      // 바닥
+      Matter.Bodies.rectangle(
+        windowDimensions.width / 2,
+        windowDimensions.height + iconSize / 2, // 바닥을 화면 약간 아래에 위치시켜 아이콘이 완전히 사라지지 않게
+        windowDimensions.width,
+        iconSize,
+        wallOptions
+      ),
+      // 왼쪽 벽
+      Matter.Bodies.rectangle(
+        -iconSize / 2,
+        windowDimensions.height / 2,
+        iconSize,
+        windowDimensions.height,
+        wallOptions
+      ),
+      // 오른쪽 벽
+      Matter.Bodies.rectangle(
+        windowDimensions.width + iconSize / 2,
+        windowDimensions.height / 2,
+        iconSize,
+        windowDimensions.height,
+        wallOptions
+      ),
+    ]);
+
+    // 물리 엔진 실행
+    Matter.Runner.run(runner, engine);
+
+    // 아이콘 상태 업데이트 루프
+    const updateInterval = setInterval(() => {
+      const currentBodies = engine.world.bodies
+        .filter((body) => body.label === "email-icon") // 아이콘만 필터링
+        .map((body) => ({
+          id: body.id,
+          x: body.position.x,
+          y: body.position.y,
+          angle: body.angle,
+        }));
+      setBodies(currentBodies);
+    }, 1000 / 60); // 60 FPS
+
+    return () => {
+      Matter.Runner.stop(runner);
+      Matter.World.clear(engine.world);
+      Matter.Engine.clear(engine);
+      clearInterval(updateInterval);
+    };
+  }, [windowDimensions]); // windowDimensions 변경 시 엔진 재설정
+
+  // displayedEmails prop 변경 시 아이콘 추가/제거
+  useEffect(() => {
+    const engine = engineRef.current;
+    const existingIcons = engine.world.bodies.filter(
+      (body) => body.label === "email-icon"
     );
-  }, [displayedEmails, windowDimensions]);
 
-  const [springs, api] = useSprings(
-    displayedEmails,
-    (i) => ({
-      from: {
-        transform: `translateY(-250px) translateX(${
-          initialStyles[i]
-            ? initialStyles[i].x + (Math.random() - 0.5) * 50
-            : Math.random() * windowDimensions.width
-        }px) rotate(0deg)`,
-        opacity: 0,
-      },
-      to: {
-        transform: `translateX(${
-          initialStyles[i] ? initialStyles[i].x : 0
-        }px) translateY(${
-          initialStyles[i] ? initialStyles[i].y : 0
-        }px) rotate(${initialStyles[i] ? initialStyles[i].rotation : 0}deg)`,
-        opacity: 1,
-      },
-      config: { ...config.gentle, mass: 1, tension: 120, friction: 14 },
-      delay: i * 100 + Math.random() * 200,
-    }),
-    [initialStyles] // initialStyles를 의존성 배열에 추가
-  );
+    if (displayedEmails > existingIcons.length) {
+      // 아이콘 추가
+      for (let i = 0; i < displayedEmails - existingIcons.length; i++) {
+        const x =
+          Math.random() * (windowDimensions.width - iconSize) + iconSize / 2;
+        // 시작 y 위치를 화면 상단으로, 약간의 랜덤성을 줌
+        const y = -Math.random() * 100 - iconSize;
+        const newIcon = Matter.Bodies.circle(x, y, iconSize / 2, {
+          label: "email-icon",
+          restitution: 0.6, // 탄성 (바운스)
+          friction: 0.05, // 마찰
+          density: 0.01, // 밀도
+          angle: Math.random() * Math.PI * 2, // 초기 랜덤 회전
+        });
+        Matter.World.add(engine.world, newIcon);
+      }
+    } else if (displayedEmails < existingIcons.length) {
+      // 아이콘 제거 (가장 오래된 아이콘부터)
+      const iconsToRemove = existingIcons.slice(
+        0,
+        existingIcons.length - displayedEmails
+      );
+      Matter.World.remove(engine.world, iconsToRemove);
+    }
+  }, [displayedEmails, windowDimensions]); // windowDimensions도 의존성에 추가
 
+  // 마우스 상호작용
+  useEffect(() => {
+    const engine = engineRef.current;
+
+    const handleMouseMove = (event) => {
+      const mousePosition = { x: event.clientX, y: event.clientY };
+      engine.world.bodies.forEach((body) => {
+        if (body.label === "email-icon") {
+          const distance = Matter.Vector.magnitude(
+            Matter.Vector.sub(mousePosition, body.position)
+          );
+          if (distance < iconSize * 2) {
+            // 마우스 근처 아이콘에만 영향
+            const forceMagnitude = 0.0005 * body.mass; // 힘의 크기
+            const force = Matter.Vector.mult(
+              Matter.Vector.normalise(
+                Matter.Vector.sub(body.position, mousePosition)
+              ), // 마우스로부터 멀어지는 방향
+              forceMagnitude
+            );
+            Matter.Body.applyForce(body, body.position, force);
+          }
+        }
+      });
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [windowDimensions]); // windowDimensions 변경 시 마우스 제약 조건 재설정
+
+  // 창 크기 변경 핸들러
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
+      // 참고: Matter.js 월드 및 바디 크기 조정 로직은 복잡할 수 있으며,
+      // 여기서는 단순화를 위해 전체 엔진을 재설정하는 방향으로 접근했습니다.
+      // 프로덕션 환경에서는 더 정교한 리사이즈 처리가 필요할 수 있습니다.
     }
     window.addEventListener("resize", handleResize);
-
-    // document에 mousemove 이벤트 리스너 추가
-    document.addEventListener("mousemove", handleMouseMove);
-    // document에 mouseleave 이벤트 리스너 추가 (브라우저 창을 벗어났을 때 감지)
-    document.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      // 컴포넌트 언마운트 시 document에서 이벤트 리스너 제거
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []); // handleMouseMove, handleMouseLeave를 의존성 배열에서 제거하여 document에 한 번만 등록되도록 함
-
-  const handleMouseMove = (e) => {
-    if (!overlayRef.current) return;
-    const rect = overlayRef.current.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    api.start((index) => {
-      // initialStyles[index]가 존재할 때만 로직 실행
-      if (!initialStyles[index]) return {};
-      const { x, y, rotation } = initialStyles[index];
-      // 아이콘의 중심점 계산
-      const iconCenterX = x + iconSize / 2;
-      const iconCenterY = y + iconSize / 2;
-
-      const dx = mouseX - iconCenterX;
-      const dy = mouseY - iconCenterY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      const interactionRadius = 120; // 마우스 상호작용 반경
-
-      if (distance < interactionRadius) {
-        const moveStrength = (interactionRadius - distance) / interactionRadius;
-        // 마우스로부터 멀어지는 방향으로 이동
-        const moveX = -(dx / distance) * moveStrength * 40; // 이동 강도 증가
-        const moveY = -(dy / distance) * moveStrength * 40;
-        // 랜덤한 추가 회전
-        const newRotation =
-          rotation + (Math.random() - 0.5) * 60 * moveStrength;
-
-        return {
-          transform: `translateX(${x + moveX}px) translateY(${
-            y + moveY
-          }px) rotate(${newRotation}deg)`,
-          config: config.wobbly, // 좀 더 탄력있는 움직임
-        };
-      } else {
-        // 마우스가 멀어지면 원래 위치로 부드럽게 복귀
-        return {
-          transform: `translateX(${x}px) translateY(${y}px) rotate(${rotation}deg)`,
-          config: { ...config.gentle, tension: 150, friction: 20 },
-        };
-      }
-    });
-  };
-
-  const handleMouseLeave = () => {
-    // 마우스가 오버레이 영역을 벗어나면 모든 아이콘을 원래 위치로 되돌림
-    api.start((index) => {
-      // initialStyles[index]가 존재할 때만 로직 실행
-      if (!initialStyles[index]) return {};
-      return {
-        transform: `translateX(${initialStyles[index].x}px) translateY(${initialStyles[index].y}px) rotate(${initialStyles[index].rotation}deg)`,
-        config: { ...config.gentle, tension: 150, friction: 20 },
-      };
-    });
-  };
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <div className="email-overlay" ref={overlayRef}>
-      {springs.map((props, index) => (
-        <animated.img
-          key={index}
+    <div ref={sceneRef} className="email-overlay">
+      {bodies.map((body) => (
+        <img
+          key={body.id}
           src={emailIcon}
           alt="Email Icon"
           className="email-icon"
           style={{
-            ...props,
+            position: "absolute",
+            left: `${body.x - iconSize / 2}px`,
+            top: `${body.y - iconSize / 2}px`,
             width: `${iconSize}px`,
             height: "auto",
-            position: "absolute",
-            top: 0,
-            left: 0,
-            willChange: "transform, opacity", // 애니메이션 성능 최적화
+            transform: `rotate(${body.angle}rad)`,
+            willChange: "transform, left, top", // 애니메이션 성능 최적화
           }}
         />
       ))}
