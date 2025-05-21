@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react"; // useRef 추가
 import { useRive, Layout, Fit, Alignment } from "rive-react";
+import { Toaster, toast } from "react-hot-toast"; // react-hot-toast 추가
 import "./TempSignup.css";
 import emailImage from "./email.png";
 import riveAnimation from "./rive.riv"; // rive.riv 파일 임포트
@@ -113,8 +114,51 @@ function TempSignup() {
     }
   }, [rive, isLoaded, emailValue]); // emailValue를 의존성 배열에 추가
 
+  const handleSubscribe = async () => {
+    if (!emailValue || !emailValue.includes("@")) {
+      toast.error("유효한 이메일을 입력해주세요.");
+      return;
+    }
+
+    if (rive) {
+      const inputs = rive.stateMachineInputs("Sniff Rig");
+      const isSniffingInput = inputs.find(
+        (input) => input.name === "isSniffing"
+      );
+      if (isSniffingInput) {
+        isSniffingInput.value = true;
+      }
+    }
+
+    // 최소 2초 대기
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    try {
+      // 여기에 실제 구독 요청 로직을 추가합니다.
+      // 예: await fetch('/api/subscribe', { method: 'POST', body: JSON.stringify({ email: emailValue }) });
+      console.log("구독 요청:", emailValue);
+      // await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      setEmailValue(""); // 구독 후 이메일 입력 필드 초기화
+      toast.success(`${emailValue} (으)로 구독 요청이 완료되었습니다!`);
+    } catch (error) {
+      console.error("구독 요청 실패:", error);
+      toast.error("구독 요청에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      if (rive) {
+        const inputs = rive.stateMachineInputs("Sniff Rig");
+        const isSniffingInput = inputs.find(
+          (input) => input.name === "isSniffing"
+        );
+        if (isSniffingInput) {
+          isSniffingInput.value = false;
+        }
+      }
+    }
+  };
+
   return (
     <div className="temp-signup-container">
+      <Toaster /> {/* ToastContainer를 Toaster로 변경 */}
       <div className="left-panel">
         <img src={emailImage} alt="Email" className="bouncing-email" />
       </div>
@@ -130,7 +174,7 @@ function TempSignup() {
           value={emailValue}
           onChange={(e) => setEmailValue(e.target.value)} // onChange 핸들러 추가
         />
-        <button>구독하기</button>
+        <button onClick={handleSubscribe}>구독하기</button>
       </div>
     </div>
   );

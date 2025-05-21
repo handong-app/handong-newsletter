@@ -64,7 +64,7 @@
 }
 
 .rive-animation-container {
-  width: 300px; /* Rive 애니메이션 컨테이너 너비 */
+  width: 100%; /* Rive 애니메이션 컨테이너 너비 */
   height: 300px; /* Rive 애니메이션 컨테이너 높이 */
   display: flex; /* Flexbox를 사용하여 내부 아이템 정렬 */
   justify-content: center; /* 가로 중앙 정렬 */
