@@ -8,7 +8,9 @@ import riveAnimation from "./rive.riv"; // rive.riv 파일 임포트
 function TempSignup() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [emailValue, setEmailValue] = useState(""); // 이메일 입력 값을 위한 상태 추가
+  const [mailLoading, setMailLoading] = useState(false); // 이메일 로딩 상태 추가
   const riveContainerRef = useRef(null); // Rive 컨테이너를 위한 ref 생성
+  const emailInputRef = useRef(null); // 이메일 입력을 위한 ref 생성
 
   const { rive, RiveComponent } = useRive({
     src: riveAnimation,
@@ -114,11 +116,20 @@ function TempSignup() {
     }
   }, [rive, isLoaded, emailValue]); // emailValue를 의존성 배열에 추가
 
+  useEffect(() => {
+    // 컴포넌트 마운트 시 이메일 입력 필드에 포커스
+    if (emailInputRef.current) {
+      emailInputRef.current.focus();
+    }
+  }, []); // 빈 의존성 배열로 마운트 시에만 실행
+
   const handleSubscribe = async () => {
     if (!emailValue || !emailValue.includes("@")) {
       toast.error("유효한 이메일을 입력해주세요.");
       return;
     }
+
+    setMailLoading(true); // 이메일 로딩 상태 설정
 
     if (rive) {
       const inputs = rive.stateMachineInputs("Sniff Rig");
@@ -152,13 +163,29 @@ function TempSignup() {
         if (isSniffingInput) {
           isSniffingInput.value = false;
         }
+        setMailLoading(false); // 이메일 로딩 상태 해제
       }
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSubscribe();
     }
   };
 
   return (
     <div className="temp-signup-container">
-      <Toaster /> {/* ToastContainer를 Toaster로 변경 */}
+      <Toaster
+        toastOptions={{
+          style: {
+            maxWidth: "100%", // 최대 너비를 100%로 설정
+            whiteSpace: "nowrap", // 줄 바꿈 방지
+            overflow: "hidden", // 내용이 넘칠 경우 숨김
+            textOverflow: "ellipsis", // 내용이 넘칠 경우 말줄임표 표시
+          },
+        }}
+      />
       <div className="left-panel">
         <img src={emailImage} alt="Email" className="bouncing-email" />
       </div>
@@ -173,8 +200,13 @@ function TempSignup() {
           placeholder="이메일 주소를 입력하세요"
           value={emailValue}
           onChange={(e) => setEmailValue(e.target.value)} // onChange 핸들러 추가
+          onKeyDown={handleKeyDown} // onKeyDown 핸들러 추가
+          ref={emailInputRef} // ref 할당
+          disabled={mailLoading}
         />
-        <button onClick={handleSubscribe}>구독하기</button>
+        <button disabled={mailLoading} onClick={handleSubscribe}>
+          구독하기
+        </button>
       </div>
     </div>
   );

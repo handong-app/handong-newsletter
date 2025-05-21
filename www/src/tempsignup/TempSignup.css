@@ -17,10 +17,9 @@
 }
 
 .bouncing-email {
-  width: 110%; /* Fill the width of the left panel */
-  height: 110%; /* Fill the height of the left panel */
+  width: 100%; /* Fill the width of the left panel */
+  height: 100%; /* Fill the height of the left panel */
   object-fit: contain; /* Changed from cover to contain to ensure the whole image is visible */
-  animation: bounce 2s infinite;
 }
 
 .right-panel {
@@ -28,8 +27,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 20px;
+  height: 100%;
 }
 
 .right-panel h2 {
@@ -47,11 +47,22 @@
   max-width: 300px;
   background-color: #4f4f4f; /* Added background color */
   color: #e0e0e0; /* Added text color */
+  margin-bottom: 16px;
 }
 
 .right-panel button {
   padding: 10px 20px;
   background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.right-panel button:disabled {
+  padding: 10px 20px;
+  background-color: darkgray;
   color: white;
   border: none;
   border-radius: 4px;
@@ -69,5 +80,5 @@
   display: flex; /* Flexbox를 사용하여 내부 아이템 정렬 */
   justify-content: center; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
-  margin-bottom: 20px; /* 제목과의 간격 추가 */
+  margin-top: 20px; /* 제목과의 간격 추가 */
 }
