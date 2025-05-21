@@ -4,10 +4,16 @@ import { firebaseApp } from "./firebase";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import MainSub from "./MainSub";
+import TempSignup from "./tempsignup/TempSignup";
 
 function App() {
   const auth = getAuth(firebaseApp);
   const [user, loading] = useAuthState(auth);
+
+  // ?temp=true 일 경우 TempSignup.jsx 보여줌
+  const urlParams = new URLSearchParams(window.location.search);
+  const temp = urlParams.get("temp");
+  if (temp) return <TempSignup />;
 
   // Loading the Firebase Auth
   if (loading) return <div className="loading">Loading...</div>;

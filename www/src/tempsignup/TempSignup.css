@@ -1,0 +1,73 @@
+.temp-signup-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.left-panel {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ensure left panel takes full viewport height */
+  overflow: hidden; /* Hide parts of image that overflow if using object-fit: cover */
+}
+
+.bouncing-email {
+  width: 110%; /* Fill the width of the left panel */
+  height: 110%; /* Fill the height of the left panel */
+  object-fit: contain; /* Changed from cover to contain to ensure the whole image is visible */
+  animation: bounce 2s infinite;
+}
+
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.right-panel h2 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  color: #e0e0e0; /* Changed from #333 to a light gray */
+}
+
+.right-panel input[type="email"] {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #555; /* Changed from #ccc */
+  border-radius: 4px;
+  width: 80%; /* Adjust width as needed */
+  max-width: 300px;
+  background-color: #4f4f4f; /* Added background color */
+  color: #e0e0e0; /* Added text color */
+}
+
+.right-panel button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.right-panel button:hover {
+  background-color: #0056b3;
+}
+
+.rive-animation-container {
+  width: 300px; /* Rive 애니메이션 컨테이너 너비 */
+  height: 300px; /* Rive 애니메이션 컨테이너 높이 */
+  display: flex; /* Flexbox를 사용하여 내부 아이템 정렬 */
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  margin-bottom: 20px; /* 제목과의 간격 추가 */
+}
