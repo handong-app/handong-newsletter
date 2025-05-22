@@ -20,6 +20,17 @@
   width: 100%; /* Fill the width of the left panel */
   height: 100%; /* Fill the height of the left panel */
   object-fit: contain; /* Changed from cover to contain to ensure the whole image is visible */
+  animation: bounce 2s infinite alternate ease-in-out; /* Add this line */
+}
+
+/* Add these keyframes */
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px); /* Adjust this value for more or less movement */
+  }
 }
 
 .right-panel {
