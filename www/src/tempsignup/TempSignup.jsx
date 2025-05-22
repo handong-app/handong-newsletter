@@ -6,7 +6,7 @@ import emailImage from "./email.png";
 import riveAnimation from "./rive.riv"; // rive.riv 파일 임포트
 import EmailOverlay from "./EmailOverlay";
 
-const rootUrl = "http://localhost:8888";
+const rootUrl = "https://nl2.jungsub.com";
 
 function TempSignup({ apiKey }) {
   const [isLoaded, setIsLoaded] = useState(false);
