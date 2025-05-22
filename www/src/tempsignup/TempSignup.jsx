@@ -6,7 +6,9 @@ import emailImage from "./email.png";
 import riveAnimation from "./rive.riv"; // rive.riv 파일 임포트
 import EmailOverlay from "./EmailOverlay";
 
-function TempSignup() {
+const rootUrl = "http://localhost:8888";
+
+function TempSignup({ apiKey }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [emailValue, setEmailValue] = useState(""); // 이메일 입력 값을 위한 상태 추가
   const [mailLoading, setMailLoading] = useState(false); // 이메일 로딩 상태 추가
@@ -148,7 +150,22 @@ function TempSignup() {
 
     try {
       // 여기에 실제 구독 요청 로직을 추가합니다.
-      // 예: await fetch('/api/subscribe', { method: 'POST', body: JSON.stringify({ email: emailValue }) });
+      const data = await fetch(rootUrl + "/signup", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: emailValue }),
+      });
+      if (data.status === 403) {
+        // clear news_apikey
+        localStorage.removeItem("news_apikey");
+        toast.error("API 키가 만료되었습니다. 다시 입력해주세요.");
+        return;
+      } else if (data.status >= 300) {
+        throw new Error("API 요청 실패");
+      }
       const subscribedEmail = emailValue; // 토스트에 현재 이메일 값을 표시하기 위해 저장
       console.log("구독 요청:", subscribedEmail);
       setEmailValue(""); // 구독 후 이메일 입력 필드 초기화
@@ -170,6 +187,26 @@ function TempSignup() {
       }
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetch(rootUrl + "/count", {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+        },
+      });
+      if (data.status === 200) {
+        // clear news_apikey
+        const count = await data.json();
+        setCurrentNumberOfEmails(count.count); // 이메일 아이콘 수 업데이트
+        return;
+      } else {
+        localStorage.removeItem("news_apikey");
+        toast.error("API 키가 만료되었습니다. 다시 입력해주세요.");
+        return;
+      }
+    })();
+  }, []);
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
