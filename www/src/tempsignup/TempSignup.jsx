@@ -198,7 +198,7 @@ function TempSignup({ apiKey }) {
       if (data.status === 200) {
         // clear news_apikey
         const count = await data.json();
-        setCurrentNumberOfEmails(count.count); // 이메일 아이콘 수 업데이트
+        setCurrentNumberOfEmails(count.count + 10); // 이메일 아이콘 수 업데이트
         return;
       } else {
         localStorage.removeItem("news_apikey");
@@ -234,7 +234,7 @@ function TempSignup({ apiKey }) {
         <div className="rive-animation-container" ref={riveContainerRef}>
           <RiveComponent style={{ width: "100%", height: "100%" }} />
         </div>
-        <h2>새로운 소식을 받아보세요!</h2>
+        <h2>한동 뉴스레터 2.0 사전신청</h2>
         <input
           type="email"
           placeholder="이메일 주소를 입력하세요"
